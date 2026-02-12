@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-flask
+  namespace: default
+  labels:
+    app: sample-flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-flask
+  template:
+    metadata:
+      labels:
+        app: sample-flask
+    spec:
+      containers:
+      - name: sample-flask
+        image: chirag0/simple_flask:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "128Mi"  
+            cpu: "250m"     
+          limits:
+            memory: "256Mi"  
+            cpu: "500m" 
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          timeoutSeconds: 10
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 10
+          failureThreshold: 5
