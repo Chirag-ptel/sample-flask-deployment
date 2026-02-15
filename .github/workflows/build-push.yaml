@@ -1,0 +1,34 @@
+name: Build, Push Docker Image
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build-image:
+    name: Build and Push Image to Registry
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Print the SHA
+        run: |
+          echo "${GITHUB_SHA}"
+      - name: Login to ECR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.Docker_IMAGE_REPO }}
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Build and push Docker image 
+        uses: docker/build-push-action@v5
+        with:
+          context: node-app
+          file: node-app/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_IMAGE_REPO }}/simple_flask:${{ github.sha }}
+
+
+      

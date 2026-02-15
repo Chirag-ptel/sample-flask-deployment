@@ -1,0 +1,40 @@
+pipeline {
+    agent any 
+    tools {
+        jdk 'jdk'
+        nodejs 'nodejs'
+    }
+    stages {
+        stage('Cleaning Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Chirag-ptel/sample-flask-deployment.git'
+            }
+        }
+
+        stage("Docker Image Build") {
+            steps {
+                script {
+                    // 1. Point to the ap-south-1 ECR Registry
+                    // Ensure you have a Jenkins credential matching the ID below
+                    docker.withRegistry('https://838746098519.dkr.ecr.ap-south-1.amazonaws.com', 'ecr:ap-south-1:aws_jenkins_user_keys') {
+
+                        // 2. Build the image with the full repository name: sample_flask_app
+                        // This tags it correctly so it knows where to push
+                        def customImage = docker.build("838746098519.dkr.ecr.ap-south-1.amazonaws.com/sample_flask_app:${env.BUILD_ID}")
+
+                        // 3. Push the image to the specified repo
+                        customImage.push()
+                        
+                        // Optional: Push 'latest' tag as well
+                        // customImage.push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
