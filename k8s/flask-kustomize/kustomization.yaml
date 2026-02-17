@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yaml
+- service.yaml
+
+images:
+  - name: sample-flask-image
+    newName: 838746098519.dkr.ecr.ap-south-1.amazonaws.com/sample_flask_app
+    newTag: "6"
