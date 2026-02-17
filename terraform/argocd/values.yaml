@@ -5,5 +5,7 @@ server:
       service.beta.kubernetes.io/aws-load-balancer-name: argocd-lb
       service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 configs:
+  cm:
+    timeout.reconciliation: 10s
   secret:
     argocdServerAdminPassword: "$2a$10$8Jgw5CH44FJPe2Yckv7kJeL9dLdrjNINx1DP6cQF91BgwG7jPq/DO"  ## hashed password of "flaskargocdpass"

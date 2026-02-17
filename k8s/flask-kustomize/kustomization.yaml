@@ -7,4 +7,4 @@ resources:
 images:
   - name: sample-flask-image
     newName: 838746098519.dkr.ecr.ap-south-1.amazonaws.com/sample_flask_app
-    newTag: "6"
+    newTag: "15efe2484ea3bb8ffb459e5f99f0b7182e628ff0"
