@@ -13,7 +13,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: k8s/flask-kustomize
-    repoURL: "git@github.com:Chirag-ptel/quest-solution.git"
+    repoURL: "https://github.com/Chirag-ptel/sample-flask-deployment.git"
     targetRevision: main
   syncPolicy:
     automated:

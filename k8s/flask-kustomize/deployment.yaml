@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: sample-flask
-        image: chirag0/simple_flask:latest
+        image: sample-flask-image
         ports:
         - containerPort: 5000
         resources:
